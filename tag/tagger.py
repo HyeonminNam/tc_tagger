@@ -3,14 +3,14 @@ import emoji
 import re
 
 
-class Threecow():
+class Tagger():
 
     def __init__(self):
         emojis_list = map(lambda x: ''.join(x.split()), emoji.UNICODE_EMOJI.keys())
         self.r = re.compile('|'.join(re.escape(p) for p in emojis_list))
        
 
-    def emoticon(self, result):
+    def _emoticon(self, result):
         emo_lst = []
         for idx, (token, _) in enumerate(result):
             if re.search(self.r, token):
@@ -22,7 +22,7 @@ class Threecow():
             result[idx:idx] = emo
         return result
     
-    def hashtag(self, result):
+    def _hashtag(self, result):
         for idx, (token, tag) in enumerate(result):
             if tag == 'Hashtag':
                 phrase = okt.phrases(token[1:])[0]
@@ -38,20 +38,20 @@ class Threecow():
                 result[idx] = tuple(h)
         return result
 
-    def tagger(self, text):
+    def tag(self, text):
         okt = Okt()
         result = okt.pos(text)
-        result = self.emoticon(result)
-        result = self.hashtag(result)
+        result = self._emoticon(result)
+        result = self._hashtag(result)
         return result
 
             
 if __name__ == "__main__":
     text = '다이어트 해야되는데...😂😂\n.\n.\n.\n#멋짐휘트니스연산점 #연산동pt'
-    text2 = '럽스타 그자체❤❤\n#럽스타그램 #운동하는커플 #태닝'
+    text2 = '럽스타 그자체❤❤ #럽스타그램 #운동하는커플 #연산동pt'
     okt = Okt()
-    threecow = Threecow()
+    threecow = Tagger()
     print('='*100)
     print('\nOkt : ', okt.pos(text2))
-    print('\nThreecow : ', threecow.tagger(text2))
+    print('\nThreecow : ', threecow.tag(text2))
     print('\n', '='*100)
