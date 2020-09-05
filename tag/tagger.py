@@ -1,7 +1,6 @@
 from konlpy.tag import Okt
 import emoji
 import re
-import numpy as np
 
 
 class Threecow():
