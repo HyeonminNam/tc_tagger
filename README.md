@@ -23,8 +23,13 @@ $ git clone https://github.com/HyeonminNam/tc_tagger.git
 
 ### Requires
 
+```powershell
+$ pip install Konlpy
+$ pip install emoji
+```
+
 - Konlpy ≥ 0.5.0
-    - 본 패키지는 Konlpy에 포함된 okt 클래스를 기반으로 제작되었습니다. okt 클래스는 Konlpy 0.5.0 버전 이후부터 포함되어 있기 때문에 Konlpy를 추가해주세요
+    - 본 패키지는 Konlpy에 포함된 okt 클래스를 기반으로 제작되었습니다. okt 클래스는 Konlpy 0.5.0 버전 이후부터 포함되어 있기 때문에 0.5.0 버전 이후의 Konlpy를 설치해 주세요.
 - emoji ≥ 0.6.0
 
 ### Python
@@ -45,19 +50,17 @@ $ git clone https://github.com/HyeonminNam/tc_tagger.git
 - tc-tagger의 tagger는 아래와 같은 특징을 가집니다.
     - 이모티콘에 대한 독립된 태그('Emoji')를 제공합니다.
     - Hashtag 뒤의 단어들은 형태소 분석과 더불어서 Hashtag 정보임을 보여주는 태그를 붙여줍니다.
+- 사용 예시
 
 ```python
 from tc_tagger.tag import Tagger
 tagger = Tagger()
 text = '럽스타 그자체❤❤ #럽스타그램 #운동하는커플 #연산동pt'
 tagger.tag(text)
-
-# 출력값
-[('럽', 'Noun'), ('스타', 'Noun'), ('그', 'Determiner'), ('자체', 'Noun'), ('❤', 'Emoji'), ('❤', 'Emoji'), (('럽스타그램', 'Hashtag_Noun'),), (('운동', 'Hashtag_Noun'), ('하는', 'Hashtag_Verb'), ('커플', 'Hashtag_Noun')), (('연산동pt', 'Hashtag_Noun'),)]
 ```
 
 - 출력 결과
-    - 이모티콘은 각각이 모두 'Emoji'로 태깅되었음을 알 수 있으며,
+    - 이모티콘은 각각이 모두 'Emoji'로 태깅되었음을 알 수 있습니다.
     - 하나의 해쉬태그당 하나의 tuple이 배당되었으며 해쉬태그 tuple 내에 다시 형태소 분석이 이루어지고 있음을 확인할 수 있습니다.
 
 ```python
