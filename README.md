@@ -1,7 +1,5 @@
 # tc_tagger
 
----
-
 - tc-tagger의 목적은 인스타그램 텍스트의 특징에 맞는 한국어 자연어처리 패키지를 만드는 것입니다.
 - 인스타그램 텍스트는 다른 텍스트와 비교했을 때에 아래와 같은 특징을 가집니다.
     1. 해쉬태그가 중요한 역할을 합니다. 해쉬태그가 달려 있는 텍스트가 전체 텍스트에서 가장 중요한 정보들을 담고 있을 가능성이 높습니다.
@@ -17,11 +15,7 @@
 
 ## Guideline
 
----
-
 ### Install
-
----
 
 ```powershell
 $ git clone https://github.com/HyeonminNam/tc_tagger.git
@@ -29,34 +23,24 @@ $ git clone https://github.com/HyeonminNam/tc_tagger.git
 
 ### Requires
 
----
-
 - Konlpy ≥ 0.5.0
     - 본 패키지는 Konlpy에 포함된 okt 클래스를 기반으로 제작되었습니다. okt 클래스는 Konlpy 0.5.0 버전 이후부터 포함되어 있기 때문에 Konlpy를 추가해주세요
 - emoji ≥ 0.6.0
 
 ### Python
 
----
-
 - Python 3.7 버전을 기반으로 구현하였습니다.
 - Python 3.x 버전 이상을 사용하시기를 권장합니다.
 
 ## Usage
 
----
-
 ### Preprocessing(구현 예정)
-
----
 
 - tc-tagger는 아래와 같이 인스타그램 텍스트에 특화된 전처리 기능을 제공합니다.
     - 이모티콘, 문장부호, Hashtag 정보를 텍스트에서 제거하는 기능
     - 텍스트에 포함된 Hashtag 정보(#), 사용자 아이디 정보(@)를 따로 추출하는 기능
 
 ### Tagger
-
----
 
 - tc-tagger의 tagger는 아래와 같은 특징을 가집니다.
     - 이모티콘에 대한 독립된 태그('Emoji')를 제공합니다.
