@@ -52,6 +52,6 @@ if __name__ == "__main__":
     okt = Okt()
     threecow = Tagger()
     print('='*100)
-    print('\nOkt : ', okt.pos(text2))
+    # print('\nOkt : ', okt.pos(text2))
     print('\nThreecow : ', threecow.tag(text2))
     print('\n', '='*100)
