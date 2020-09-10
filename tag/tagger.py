@@ -1,4 +1,4 @@
-from konlpy.tag import Okt
+from konlpy_tc.tag import Okt
 import emoji
 import re
 
