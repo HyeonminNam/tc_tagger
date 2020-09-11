@@ -1,4 +1,4 @@
-from konlpy_tc.tag import Okt
+from konlpy_tc.tag import Okt_edit
 import emoji
 import re
 
@@ -9,6 +9,7 @@ class Threecow():
         self.emoji_dic = emoji.UNICODE_EMOJI
         self.emoji_list = map(lambda x: ''.join(x.split()), emoji.UNICODE_EMOJI.keys())
         self.re_emoji = re.compile('|'.join(re.escape(p) for p in self.emoji_list))
+        self.okt_edit = Okt_edit()
         
        
 
@@ -27,22 +28,21 @@ class Threecow():
     def hashtag(self, result):
         for idx, (token, tag) in enumerate(result):
             if tag == 'Hashtag':
-                phrase = okt.phrases(token[1:])[0]
+                phrase = self.okt_edit.phrases(token[1:])[0]
                 new_token = re.sub(phrase, ' '+phrase+' ' , token[1:]).strip().split()
                 h = []
                 for x in new_token:
                     if x == phrase:
                         h.append((x, 'Hashtag_Noun'))
                     else:
-                        tmp = okt.pos(x)
+                        tmp = self.okt_edit.pos(x)
                         for token, tag in tmp:
                             h.append((token, 'Hashtag_'+tag))         
                 result[idx] = tuple(h)
         return result
 
     def tagger(self, text):
-        okt = Okt()
-        result = okt.pos(text)
+        result = self.okt_edit.pos(text)
         result = self.emoticon(result)
         result = self.hashtag(result)
         return result
@@ -60,12 +60,11 @@ class Threecow():
             
 if __name__ == "__main__":
     text = '다이어트 해야되는데...😂😂\n.\n.\n.\n#멋짐휘트니스연산점 #연산동pt'
-    text2 = '럽스타 그자체❤❤\n#럽스타그램 #운동하는커플 #태닝'
-    okt = Okt()
+    text2 = '술스타그램 그자체❤❤\n#럽스타그램 #운동하는커플 #태닝'
+    text3 = '서피비치'
     threecow = Threecow()
     print('='*100)
-    print('\nOkt : ', okt.pos(text))
-    print('\nThreecow : ', threecow.tagger(text))
+    print('\nThreecow : ', threecow.tagger(text2))
     print('\n', '='*100)
     print('\ntokenize 결과: ')
-    print(threecow.tokenizer(text))
+    print(threecow.tokenizer(text2))
