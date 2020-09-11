@@ -13,4 +13,4 @@ except ImportError:
     pass
 
 from konlpy_tc.tag._okt import Twitter
-from konlpy_tc.tag._okt import Okt
+from konlpy_tc.tag._okt import Okt_edit

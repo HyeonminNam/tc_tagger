@@ -14,10 +14,10 @@ def Twitter(jvmpath=None):
 
     from warnings import warn
     warn('"Twitter" has changed to "Okt" since konlpy_tc v0.4.5.')
-    return Okt(jvmpath)
+    return Okt_edit(jvmpath)
 
 
-class Okt():
+class Okt_edit():
     """
     Wrapper for `Open Korean Text <https://github.com/open-korean-text/open-korean-text>`_.
 

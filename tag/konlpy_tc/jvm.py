@@ -42,7 +42,7 @@ def init_jvm(jvmpath=None, max_heap_size=1024):
         # Twitter (Okt)
         '{0}{1}snakeyaml-1.12.jar',
         '{0}{1}scala-library-2.12.3.jar',
-        '{0}{1}open-korean-text-2.1.0.jar',
+        '{0}{1}open-korean-text-2.3.2-SNAPSHOT.jar',
         '{0}{1}twitter-text-1.14.7.jar',
         '{0}{1}*'
     ]
