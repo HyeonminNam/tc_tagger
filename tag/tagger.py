@@ -6,15 +6,17 @@ import re
 class Threecow():
 
     def __init__(self):
-        emojis_list = map(lambda x: ''.join(x.split()), emoji.UNICODE_EMOJI.keys())
-        self.r = re.compile('|'.join(re.escape(p) for p in emojis_list))
+        self.emoji_dic = emoji.UNICODE_EMOJI
+        self.emoji_list = map(lambda x: ''.join(x.split()), emoji.UNICODE_EMOJI.keys())
+        self.re_emoji = re.compile('|'.join(re.escape(p) for p in self.emoji_list))
+        
        
 
     def emoticon(self, result):
         emo_lst = []
         for idx, (token, _) in enumerate(result):
-            if re.search(self.r, token):
-                lst = [(x, 'Emoji') for x in token]
+            if re.search(self.re_emoji, token):
+                lst = [(x+'_'+self.emoji_dic[x][1:-1], 'Emoji') for x in token]
                 emo_lst.append((idx, lst))
         emo_lst.reverse()
         for idx, emo in emo_lst:
@@ -62,8 +64,8 @@ if __name__ == "__main__":
     okt = Okt()
     threecow = Threecow()
     print('='*100)
-    print('\nOkt : ', okt.pos(text2))
-    print('\nThreecow : ', threecow.tagger(text2))
+    print('\nOkt : ', okt.pos(text))
+    print('\nThreecow : ', threecow.tagger(text))
     print('\n', '='*100)
     print('\ntokenize 결과: ')
-    print(threecow.tokenizer(text2))
+    print(threecow.tokenizer(text))
