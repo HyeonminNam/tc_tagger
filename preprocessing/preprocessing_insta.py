@@ -11,14 +11,11 @@ class Preprocessing_Insta () :
     
     # hashtag 추출(#포함)
     def extract_hashtag(self, content) :
-        hashtag_list = []
-        re_content = re.findall('\#[\w가-힣a-zA-Z0-9]*', str(content))
-        if re_content:
-            hashtag_list.append(re_content)
+        hashtag_list = re.findall('\#[\w가-힣a-zA-Z0-9]*', str(content))
+        if hashtag_list:
+            return hashtag_list
         else :
-            hashtag_list.append('')
-        
-        return hashtag_list
+            return ''
     
     # post 추출
     def extract_post(self, content) :  
