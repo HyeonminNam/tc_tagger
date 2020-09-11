@@ -1,4 +1,3 @@
-# import pandas as pd
 import json
 import re
 from pykospacing import spacing # 설치 방법 : pip install git+https://github.com/haven-jeon/PyKoSpacing.git
@@ -11,14 +10,11 @@ class Preprocessing_Insta () :
     
     # hashtag 추출(#포함)
     def extract_hashtag(self, content) :
-        hashtag_list = []
-        re_content = re.findall('\#[\w가-힣a-zA-Z0-9]*', str(content))
-        if re_content:
-            hashtag_list.append(re_content)
+        hashtag_list = re.findall('\#[\w가-힣a-zA-Z0-9]*', str(content))
+        if hashtag_list:
+            return hashtag_list
         else :
-            hashtag_list.append('')
-        
-        return hashtag_list
+            return ''
     
     # post 추출
     def extract_post(self, content) :  
@@ -60,25 +56,26 @@ class Preprocessing_Insta () :
                            "]+", flags=re.UNICODE)
         return only_BMP_pattern.sub(r'', content)
     
-    
-    def preprocess_content(self, content_list) :        
+    # content list 전처리
+    def preprocess_content(self, content_list, spacing = False) :        
         post_list =[]
         hashtag_list= []         
         for content in content_list :
             original_post = self.extract_post(content)
-            post_list.append(self.auto_spacing(original_post))
+            if spacing :
+                post_list.append(self.auto_spacing(original_post))
+            else :
+                post_list.append(original_post)
             hashtag_list.append(self.remove_hash(self.extract_hashtag(content)))
         return post_list, hashtag_list
     
 if __name__ == "__main__":
     content_list = ['다이어트 해야되는데...😂😂\n.\n.\n.\n#멋짐휘트니스연산점 #연산동pt','럽스타 그자체❤❤ #럽스타그램 #운동하는커플 #연산동pt']
     test_class = Preprocessing_Insta()
-    post_ls, hashtag_ls = test_class.preprocess_content(content_list)
+    post_ls, hashtag_ls = test_class.preprocess_content(content_list, spacing= True)
     print(post_ls)
     print(hashtag_ls)
     print("-----------------------------------------------------------------------------------------------")
-    # print(pd.DataFrame({'post':post_ls, 'hashtag':hashtag_ls}))
-    # print("------------------------------------------------------------------------------------------------")
     print("*************이모지 삭제 활용 예시*************")
     for post in post_ls : 
         print(test_class.del_emoji(post))
