@@ -61,10 +61,11 @@ class Threecow():
 if __name__ == "__main__":
     text = '다이어트 해야되는데...😂😂\n.\n.\n.\n#멋짐휘트니스연산점 #연산동pt'
     text2 = '술스타그램 그자체❤❤\n#럽스타그램 #운동하는커플 #태닝'
-    text3 = '서피비치'
+    text3 = '이지부스트 연영과 하이탑 전공의'
     threecow = Threecow()
-    print('='*100)
-    print('\nThreecow : ', threecow.tagger(text2))
-    print('\n', '='*100)
-    print('\ntokenize 결과: ')
-    print(threecow.tokenizer(text2))
+    for t in [text, text2, text3]:
+        print('='*100)
+        print('\nThreecow : ', threecow.tagger(t))
+        print('\n', '='*100)
+        print('\ntokenize 결과: ')
+        print(threecow.tokenizer(t))
