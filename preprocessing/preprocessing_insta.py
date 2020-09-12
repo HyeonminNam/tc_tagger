@@ -26,10 +26,10 @@ class Preprocessing_Insta () :
     # 태그된 userID 추출
     def extract_tagged_userID(self, content) : #태그된 userID 추출의 경우 hashtag 추출과 달리 @를 제거해준 값 리턴 
         re_content = re.findall('\@[\w가-힣a-zA-Z0-9]*', str(content))
-        tmp = []
+        userID_list= []
         for userID in re_content:
-            tmp.append(re.sub("@","",userID))
-        return tmp
+            userID_list.append(re.sub("@","",userID))
+        return userID_list
 
     # hashtag(#) 제거
     def remove_hash(self, hashtag_list) :
@@ -57,7 +57,7 @@ class Preprocessing_Insta () :
         return only_BMP_pattern.sub(r'', content)
     
     # content list 전처리
-    def preprocess_content(self, content_list, spacing = False) :        
+    def preprocess_content(self, content_list, spacing = False, sub_hash = False) :        
         post_list =[]
         hashtag_list= []         
         for content in content_list :
@@ -66,7 +66,10 @@ class Preprocessing_Insta () :
                 post_list.append(self.auto_spacing(original_post))
             else :
                 post_list.append(original_post)
-            hashtag_list.append(self.remove_hash(self.extract_hashtag(content)))
+            if sub_hash :
+                hashtag_list.append(self.remove_hash(self.extract_hashtag(content)))
+            else :
+                hashtag_list.append(self.extract_hashtag(content))
         return post_list, hashtag_list
     
 if __name__ == "__main__":
