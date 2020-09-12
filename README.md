@@ -54,17 +54,27 @@ $ pip install emoji
 - 사용 예시
 
 ```python
-from tc_tagger.tag import Tagger
-tagger = Tagger()
-text = '럽스타 그자체❤❤ #럽스타그램 #운동하는커플 #연산동pt'
-tagger.tag(text)
+from tc_tagger.tag import Threecow()
+text1 = '럽스타 그자체❤❤\n#럽스타그램 #운동하는커플 #태닝'
+text2 = '이지부스트 신은 연영과 학생'
+threecow = TC_tagger()
+for text in [text1, text2]:
+    print(threecow.tagger(text))
+    print(threecow.tokenizer(text))
 ```
 
 - 출력 결과
     - 이모티콘은 각각이 모두 'Emoji'로 태깅되었음을 알 수 있습니다.
     - 하나의 해쉬태그당 하나의 tuple이 배당되었으며 해쉬태그 tuple 내에 다시 형태소 분석이 이루어지고 있음을 확인할 수 있습니다.
+    - 인스타그램에서 자주 쓰이는 고유명사, 신조어를 하나의 단어로 태깅하는 것을 확인할 수 있습니다.
 
 ```python
-# 출력값
-[('럽', 'Noun'), ('스타', 'Noun'), ('그', 'Determiner'), ('자체', 'Noun'), ('❤', 'Emoji'), ('❤', 'Emoji'), (('럽스타그램', 'Hashtag_Noun'),), (('운동', 'Hashtag_Noun'), ('하는', 'Hashtag_Verb'), ('커플', 'Hashtag_Noun')), (('연산동pt', 'Hashtag_Noun'),)]
+# text1 tagger 출력값
+[('럽스타', 'Noun'), ('그', 'Determiner'), ('자체', 'Noun'), ('❤_red_heart', 'Emoji'), ('❤_red_heart', 'Emoji'), ('\n', 'Foreign'), (('럽스타그램', 'Hashtag_Noun'),), (('운동', 'Hashtag_Noun'), ('하는', 'Hashtag_Verb'), ('커플', 'Hashtag_Noun')), (('태닝', 'Hashtag_Noun'),)]
+# text1 tokenizer 출력값
+['럽스타', '그', '자체', '❤_red_heart', '❤_red_heart', '\n', '럽스타그램', '운동', '하는', '커플', '태닝']
+# text2 tagger 출력값
+[('이지부스트', 'Noun'), ('신은', 'Verb'), ('연영과', 'Noun'), ('학생', 'Noun')]
+# text2 tokenizer 출력값
+['이지부스트', '신은', '연영과', '학생']
 ```
