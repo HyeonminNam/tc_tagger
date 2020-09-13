@@ -7,7 +7,7 @@ import pandas as pd
 sys.path.append(os.path.dirname(__file__))
 
 
-class TC_tagger():
+class tagger():
 
     def __init__(self):
         self.emoji_dic = emoji.UNICODE_EMOJI
@@ -79,7 +79,7 @@ if __name__ == "__main__":
     text1 = '다이어트 해야되는데...😂 #멋짐휘트니스연산점 #연산동pt'
     text2 = '럽스타 그자체❤❤\n#럽스타그램 #운동하는커플 #태닝'
     text3 = '이지부스트 신은 연영과 학생'
-    tc_tagger = TC_tagger()
+    tc_tagger = tagger()
     for t in [text1, text2, text3]:
         print('='*100)
         print('\nThreecow : ', tc_tagger.tag(t))
