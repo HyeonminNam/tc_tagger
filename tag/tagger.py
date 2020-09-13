@@ -1,6 +1,7 @@
 from konlpy_tc.tag import Okt_edit
 import emoji
 import re
+import pandas as pd
 
 
 class TC_tagger():
