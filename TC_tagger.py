@@ -47,7 +47,7 @@ class tagger():
                     else:
                         tmp = self.okt_edit.pos(x)
                         for token_, tag_ in tmp:
-                            h.append((token_, 'Hashtag_'+tag))         
+                            h.append((token_, 'Hashtag_'+tag_))         
                 result[idx] = tuple(h)
         return result
 
