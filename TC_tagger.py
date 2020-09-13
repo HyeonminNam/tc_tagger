@@ -55,13 +55,20 @@ class tagger():
         return result
 
     def tag(self, text):
-        result = self.okt_edit.pos(text)
-        result = self.emoticon(result)
-        result = self.hashtag(result)
+        try:
+            result = self.okt_edit.pos(text)
+            result = self.emoticon(result)
+            result = self.hashtag(result)
+        except Exception as e:
+            print(e)
+            return False
         return result
 
     def tokenizer(self, text):
         tag_result = self.tag(text)
+        if not tag_result:
+            print('input is not valid!')
+            return
         token_lst = []
         for x in tag_result:
             if type(x[0]) == str:
@@ -73,6 +80,9 @@ class tagger():
 
     def nouns(self, text):
         tag_result = self.tag(text)
+        if not tag_result:
+            print('input is not valid!')
+            return
         nouns_lst = []
         for x in tag_result:
             if type(x[0]) == str and x[1] == 'Noun':
