@@ -1,6 +1,6 @@
 import json
 import re
-from pykospacing import spacing # 설치 방법 : pip install git+https://github.com/haven-jeon/PyKoSpacing.git
+# from pykospacing import spacing # 설치 방법 : pip install git+https://github.com/haven-jeon/PyKoSpacing.git
 
 class preprocessing () :
     
@@ -39,9 +39,9 @@ class preprocessing () :
                 tmp.append(re.sub("#","",j))
         return tmp
     
-    # pykospacing패키지를 사용한 띄어쓰기 처리
-    def auto_spacing(self, content) :
-        return spacing(content)
+    # # pykospacing패키지를 사용한 띄어쓰기 처리
+    # def auto_spacing(self, content) :
+    #     return spacing(content)
         
     # Escape Code 처리
     def del_escape(self, content):
@@ -63,7 +63,8 @@ class preprocessing () :
         for content in content_list :
             original_post = self.extract_post(content)
             if spacing :
-                post_list.append(self.auto_spacing(original_post))
+                # post_list.append(self.auto_spacing(original_post))
+                pass
             else :
                 post_list.append(original_post)
             if sub_hash :

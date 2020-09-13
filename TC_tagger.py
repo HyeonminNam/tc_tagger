@@ -4,7 +4,6 @@ sys.path.append(os.path.dirname(__file__))
 from konlpy_tc.tag import Okt_edit
 import emoji
 import re
-import pandas as pd
 
 
 
