@@ -1,7 +1,10 @@
+import os
+import sys
 from konlpy_tc.tag import Okt_edit
 import emoji
 import re
 import pandas as pd
+sys.path.append(os.path.dirname(__file__))
 
 
 class TC_tagger():
@@ -13,7 +16,6 @@ class TC_tagger():
         self.okt_edit = Okt_edit()
         
        
-
     def emoticon(self, result):
         emo_lst = []
         for idx, (token, _) in enumerate(result):
