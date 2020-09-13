@@ -53,7 +53,6 @@ class tagger():
 
     def tag(self, text):
         result = self.okt_edit.pos(text)
-        print(result)
         result = self.emoticon(result)
         result = self.hashtag(result)
         return result
@@ -88,7 +87,7 @@ if __name__ == "__main__":
     text2 = '럽스타 그자체❤❤\n#럽스타그램 #운동하는커플 #태닝'
     text3 = '우뤠기 갑자기 \U0001fa78💩 싸고 🤮 하고 왜그래.. 지발로 켄넬들어가서 몸 말고 자고있고. ㅠ 엄마 수업 간 사이 그 좋은 열빙어포도 터키츄도 건드리지도 않고 ㅠ. 걀국 병원와서 혈액검사즁. 아프지마 내새꾸. My boy doesn’t feel well today and finally paid a visit to a local vet for some \U0001fa78 tests done. 😭😭-#billie #puppy #puppystagram #puppylove #puppyson #maltipoo #dog #dogstagram #puppymomlife #mydogismychild #daily #2020 #빌리 #개린이 #말티푸 #개아들 #개스타그램 #강아지 #강아지스타그램 #댕댕이 #멍멍이 #멍뭉이 #뽀시래기 #개집사 #일상 #갱얼쥐 #내새꾸'
     tc_tagger = tagger()
-    print(tc_tagger.tag(text3))
+    print(tc_tagger.nouns(text3))
     # for t in [text1, text2, text3]:
     #     print('='*100)
     #     print('\nThreecow : ', tc_tagger.tag(t))
