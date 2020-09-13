@@ -1,6 +1,3 @@
-## 2안
-### 필요 파일: git, python3, java, konlpy, emoji, pandas
-
 FROM ubuntu:16.04
 MAINTAINER <wdg369@gmail.com>
 
