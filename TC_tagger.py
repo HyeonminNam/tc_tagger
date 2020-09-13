@@ -4,7 +4,7 @@ sys.path.append(os.path.dirname(__file__))
 from konlpy_tc.tag import Okt_edit
 import emoji
 import re
-
+from TC_preprocessing import preprocessing
 
 
 class tagger():
@@ -15,9 +15,11 @@ class tagger():
         self.re_emoji = re.compile('|'.join(re.escape(p) for p in self.emoji_list if p != '\u200d|\u200c'))
         self.okt_edit = Okt_edit()
         self.re_hashtag = re.compile('')
+        self.preprocess = preprocessing()
         
-       
-    def emoticon(self, result):
+
+    # 이모지에 'Emoji' 태깅 붙여주는 함수
+    def _emoticon(self, result):
         emo_lst = []
         for idx, (token, _) in enumerate(result):
             emojis = re.findall(self.re_emoji, token)
@@ -33,7 +35,8 @@ class tagger():
             result[idx:idx] = emo
         return result
     
-    def hashtag(self, result):
+    # 해쉬태그 분석하고 해쉬태그 고유명사 처리 알고리즘 수행하는 함수
+    def _hashtag(self, result):
         for idx, (token, tag) in enumerate(result):
             if tag == 'Hashtag':
                 token = re.search('[#](\w+)', token).group(1)
@@ -50,20 +53,24 @@ class tagger():
                     else:
                         tmp = self.okt_edit.pos(x)
                         for token_, tag_ in tmp:
-                            h.append((token_, 'Hashtag_'+tag_))         
-                result[idx] = tuple(h)
+                            h.append((token_, 'Hashtag_'+tag_))
+                result.pop(idx)         
+                result[idx:idx] = h
         return result
 
+    # 형태소 분석 함수
     def tag(self, text):
+        text = self.preprocess.del_escape(text)
         try:
             result = self.okt_edit.pos(text)
-            result = self.emoticon(result)
-            result = self.hashtag(result)
+            result = self._emoticon(result)
+            result = self._hashtag(result)
         except Exception as e:
             print(e)
             return False
         return result
 
+    # 토큰화 함수
     def tokenizer(self, text):
         tag_result = self.tag(text)
         if not tag_result:
@@ -71,41 +78,32 @@ class tagger():
             return
         token_lst = []
         for x in tag_result:
-            if type(x[0]) == str:
-                token_lst.append(x[0])
-            else:
-                for y in x:
-                    token_lst.append(y[0])
+            token_lst.append(x[0])
         return token_lst
 
-    def nouns(self, text):
+    # 원하는 품사의 토큰들만 추출하는 함수
+    def pos_filter(self, text, pos=['Noun', 'Hashtag_Noun']):
+        pos_re = re.compile('|'.join(re.escape(p) for p in pos))
         tag_result = self.tag(text)
         if not tag_result:
             print('input is not valid!')
             return
-        nouns_lst = []
+        token_lst = []
         for x in tag_result:
-            if type(x[0]) == str and x[1] == 'Noun':
-                nouns_lst.append(x[0])
-            elif type(x[0]) == str:
-                pass
-            else:
-                for y in x:
-                    if y[1] == 'Hashtag_Noun':
-                        nouns_lst.append(y[0])
-        return nouns_lst
+            if pos_re.match(x[1]):
+                token_lst.append(x[0])
+        return token_lst
 
 if __name__ == "__main__":
     text1 = '다이어트 해야되는데...😂😂 #멋짐휘트니스연산점 #연산동pt'
     text2 = '럽스타 그자체❤❤\n#럽스타그램 #운동하는커플 #태닝'
-    text3 = '내가 이사하는 곳은 모르고 왔어도 항상 공사예정. 아님 한국은 항상 공사중인건가. 어쩌다 홍삼투여하고 림프절 내가 막 문대면서 어쩌다 대책위. 스트레스 극취약한 내가 이러면 되겠슴까 안되겠슴까. 🤦🏽\u200d♀️#아파트열사 노인인구가 압도적으로 많은 단지분위기로다가 아무도 무엇에 관심을 두지않아서 지극히 #개인주의 인 내가 이런짓을. '
+    text3 = '이지부스트 연영과 #국어정보처리시스템경진대회'
     tc_tagger = tagger()
-    print(tc_tagger.tag(text3))
-    # for t in [text1, text2, text3]:
-    #     print('='*100)
-    #     print('\nThreecow : ', tc_tagger.tag(t))
-    #     print('\n', '='*100)
-    #     print('\ntokenize 결과: ')
-    #     print(tc_tagger.tokenizer(t))
-    #     print('\nnouns 추출 결과: ')
-    #     print(tc_tagger.nouns(t))
+    for t in [text1, text2, text3]:
+        print('='*100)
+        print('\nThreecow : ', tc_tagger.tag(t))
+        print('\n', '='*100)
+        print('\ntokenize 결과: ')
+        print(tc_tagger.tokenizer(t))
+        print('\n특정 품사 추출 결과: ')
+        print(tc_tagger.pos_filter(t, pos=['Noun', 'Hashtag_Noun', 'Emoji']))
