@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 import os
 import sys
 sys.path.append(os.path.dirname(__file__))
@@ -5,7 +6,7 @@ import re
 import emoji
 # from pykospacing import spacing # 설치 방법 : pip install git+https://github.com/haven-jeon/PyKoSpacing.git
 
-class preprocessing () :
+class preprocessing() :
     
     def __init__(self):
         self.escape_code = ['\n', '\xa0', '\"', '\'', '\t', '\r', '\$', '\\', '\u200d']
