@@ -6,8 +6,6 @@ from konlpy_tc.tag import Okt_edit
 import emoji
 import re
 from TC_preprocessing import Preprocessing
-from itertools import groupby
-
 
 
 class Tagger():
@@ -46,40 +44,48 @@ class Tagger():
             result[idx:idx] = emo
         return result
     
-    # 해쉬태그 분석하고 해쉬태그 고유명사 처리 알고리즘 수행하는 함수
+    # 해시태그 분석하고 해시태그 고유명사 처리 알고리즘 수행하는 함수
     def _hashtag(self, result):
-        for idx, (token, tag) in enumerate(result):
+        h = []
+        for pos_idx, (token, tag) in enumerate(result):
             if tag == 'Hashtag':
                 token = re.search('[#](\w+)', token).group(1)
-                phrase_lst = self.okt_edit.phrases(token)
                 token_lst = self.okt_edit.pos(token)
-                noun_idx = []
-                for idx, (token_, tag_) in enumerate(token_lst):
-                    if tag_ == 'Noun':
-                        while  != 
-                for k, g in groupby(enumerate(noun_idx), lambda(i, x): i-x):
-                    print(k, g)
-
-                h = []
-                if len(phrase_lst) == 0:
-                    tmp = self.okt_edit.pos(token)
-                    for token_, tag_ in tmp:
-                        h.append((token_, 'Hashtag_'+tag_))
-                else:
-                    phrase = phrase_lst[0]
-                    new_token = re.sub(phrase, ' '+phrase+' ' , token).strip().split()
-                    h = []
-                    for x in new_token:
-                        if x == phrase and re.search('[가-힣ㄱ-ㅎㅏ-ㅣ]+', x):
-                            h.append((x, 'Hashtag_Noun'))
+                noun_idx_lst = [idx for idx, (token_, tag_) in enumerate(token_lst) if tag_ == 'Noun']
+                if len(noun_idx_lst) >= 2:
+                    np_idx =  []
+                    tmp = []
+                    v = noun_idx_lst.pop(0)
+                    tmp.append(v)
+                    while len(noun_idx_lst) > 0:
+                        vv = noun_idx_lst.pop(0)
+                        if v+1 == vv:
+                            tmp.append(vv)
+                            v = vv
                         else:
-                            tmp = self.okt_edit.pos(x)
-                            for token_, tag_ in tmp:
-                                h.append((token_, 'Hashtag_'+tag_))
-                result.pop(idx)         
-                result[idx:idx] = h
+                            np_idx.append(tmp)
+                            tmp = []
+                            tmp.append(vv)
+                            v = vv
+                    np_idx.append(tmp)
+                    np_idx.reverse()
+                    for np in np_idx:
+                        start, end = np[0], np[-1]
+                        noun = ''
+                        for n in np:
+                            noun += token_lst[n][0]
+                        token_lst[start] = (noun, 'Noun')
+                        del token_lst[start+1:end+1]
+                for idx, x in enumerate(token_lst):
+                    token_lst[idx] = (x[0], 'Hashtag_' + x[1])
+                h.append([pos_idx, token_lst])
+        h.reverse()
+        for pos_idx, token_lst in h:
+            result.pop(pos_idx)
+            result[pos_idx:pos_idx] = token_lst
         return result
     
+    # Okt에서 인식 못하는 해시태그 처리
     def _punctuation_sharp(self, result):
         hash_lst = []
         for idx, x in enumerate(result):
@@ -133,13 +139,12 @@ class Tagger():
                 token_lst.append(x[0])
         return token_lst
 
+
 if __name__ == "__main__":
-    text1 = '다이어트 해야되는데... #😂❤ #멋짐휘트니스연산점 #연산동pt'
-    text2 = '럽스타 그자체❤❤\n#럽스타그램 #운동하는커플 #태닝'
-    text3 = '좋반해주세요 기다려주는 사람이있어 매우 행복한 밤이네요'
+    text1 = '다이어트 해야되는데...😂😂 #멋짐휘트니스연산점 #연산동pt'
+    text2 = '럽스타 그자체...❤❤\n#럽스타그램 #운동하는커플 #태닝'
+    text3 = '#넓은카페#예쁜양말쇼핑'
     tc_tagger = Tagger()
-    # print(tc_tagger.tag(text1))
-    # print(tc_tagger.tag(text2))
     print(tc_tagger.tag(text3))
     # for t in [text1, text2, text3]:
     #     print('='*100)
