@@ -73,6 +73,7 @@ class Tagger():
     # 형태소 분석 함수
     def tag(self, text):
         text = self.preprocess.del_escape(text)
+        text = re.sub('(?P<match>[^\s])#', '\g<match> #', text) 
         try:
             result = self.okt_edit.pos(text)
             result = self._emoticon(result)
@@ -109,7 +110,7 @@ class Tagger():
 if __name__ == "__main__":
     text1 = '다이어트 해야되는데... #😂❤ #멋짐휘트니스연산점 #연산동pt'
     text2 = '럽스타 그자체❤❤\n#럽스타그램 #운동하는커플 #태닝'
-    text3 = '#drive #eat'
+    text3 = '#음식#사진#보세요'
     tc_tagger = Tagger()
     print(tc_tagger.tag(text1))
     print(tc_tagger.tag(text2))
