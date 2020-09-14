@@ -17,7 +17,7 @@ RUN apt-get clean -y && \
 RUN apt-get update && \
     apt-get install -y git && \
     git clone https://github.com/HyeonminNam/tc_tagger.git
-WORKDIR /tc_tagger
+
 RUN git pull origin master
 
 RUN pip3 install konlpy && \
