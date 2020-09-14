@@ -60,7 +60,7 @@ class Tagger():
                     new_token = re.sub(phrase, ' '+phrase+' ' , token).strip().split()
                     h = []
                     for x in new_token:
-                        if x == phrase:
+                        if x == phrase and re.search('[가-힣ㄱ-ㅎㅏ-ㅣ]+', x):
                             h.append((x, 'Hashtag_Noun'))
                         else:
                             tmp = self.okt_edit.pos(x)
@@ -109,7 +109,7 @@ class Tagger():
 if __name__ == "__main__":
     text1 = '다이어트 해야되는데... #😂❤ #멋짐휘트니스연산점 #연산동pt'
     text2 = '럽스타 그자체❤❤\n#럽스타그램 #운동하는커플 #태닝'
-    text3 = '#실시간 #만주수공417동 #비닐놀이 #그래재밌으면됐지뭐'
+    text3 = '#drive #eat'
     tc_tagger = Tagger()
     print(tc_tagger.tag(text1))
     print(tc_tagger.tag(text2))
