@@ -5,10 +5,10 @@ sys.path.append(os.path.dirname(__file__))
 from konlpy_tc.tag import Okt_edit
 import emoji
 import re
-from TC_preprocessing import preprocessing
+from TC_preprocessing import Preprocessing
 
 
-class tagger():
+class Tagger():
 
     def __init__(self):
         self.emoji_dic = emoji.UNICODE_EMOJI
@@ -16,7 +16,7 @@ class tagger():
         self.re_emoji = re.compile('|'.join(re.escape(p) for p in self.emoji_list if p != '\u200d|\u200c'))
         self.okt_edit = Okt_edit()
         self.re_hashtag = re.compile('')
-        self.preprocess = preprocessing()
+        self.preprocess = Preprocessing()
         
 
     # 이모지에 'Emoji' 태깅 붙여주는 함수
@@ -110,7 +110,7 @@ if __name__ == "__main__":
     text1 = '다이어트 해야되는데... #😂❤ #멋짐휘트니스연산점 #연산동pt'
     text2 = '럽스타 그자체❤❤\n#럽스타그램 #운동하는커플 #태닝'
     text3 = '#실시간 #만주수공417동 #비닐놀이 #그래재밌으면됐지뭐'
-    tc_tagger = tagger()
+    tc_tagger = Tagger()
     print(tc_tagger.tag(text1))
     print(tc_tagger.tag(text2))
     print(tc_tagger.tag(text3))

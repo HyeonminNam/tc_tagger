@@ -6,7 +6,7 @@ import re
 import emoji
 # from pykospacing import spacing # 설치 방법 : pip install git+https://github.com/haven-jeon/PyKoSpacing.git
 
-class preprocessing() :
+class Preprocessing() :
     
     def __init__(self):
         self.escape_code = ['\n', '\xa0', '\"', '\'', '\t', '\r', '\$', '\\', '\u200d']
@@ -79,7 +79,7 @@ class preprocessing() :
     
 if __name__ == "__main__":
     text_list = ['다이어트 해야되는데...😂😂\n.\n.\n.\n#멋짐휘트니스연산점 #연산동pt','럽스타 그자체❤❤ #럽스타그램 #운동하는커플 #연산동pt']
-    test_class = preprocessing()
+    test_class = Preprocessing()
     post_ls, hashtag_ls = test_class.preprocess_text(text_list)
     print(post_ls)
     print(hashtag_ls)
