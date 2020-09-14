@@ -6,6 +6,8 @@ from konlpy_tc.tag import Okt_edit
 import emoji
 import re
 from TC_preprocessing import Preprocessing
+from itertools import groupby
+
 
 
 class Tagger():
@@ -50,6 +52,14 @@ class Tagger():
             if tag == 'Hashtag':
                 token = re.search('[#](\w+)', token).group(1)
                 phrase_lst = self.okt_edit.phrases(token)
+                token_lst = self.okt_edit.pos(token)
+                noun_idx = []
+                for idx, (token_, tag_) in enumerate(token_lst):
+                    if tag_ == 'Noun':
+                        while  != 
+                for k, g in groupby(enumerate(noun_idx), lambda(i, x): i-x):
+                    print(k, g)
+
                 h = []
                 if len(phrase_lst) == 0:
                     tmp = self.okt_edit.pos(token)
@@ -69,6 +79,20 @@ class Tagger():
                 result.pop(idx)         
                 result[idx:idx] = h
         return result
+    
+    def _punctuation_sharp(self, result):
+        hash_lst = []
+        for idx, x in enumerate(result):
+            if x == ('#', 'Punctuation'):
+                try:
+                    hash_lst.append([idx, (result[idx+1][0], 'Hashtag_' + result[idx+1][1])])
+                except:
+                    return result
+        hash_lst.reverse()
+        for idx, hash_ in hash_lst:
+            result.pop(idx)
+            result[idx] = hash_
+        return result
 
     # 형태소 분석 함수
     def tag(self, text):
@@ -78,6 +102,8 @@ class Tagger():
             result = self.okt_edit.pos(text)
             result = self._emoticon(result)
             result = self._hashtag(result)
+            if ('#', 'Punctuation') in result:
+                result = self._punctuation_sharp(result)
         except Exception as e:
             print(e)
             return False
@@ -110,10 +136,10 @@ class Tagger():
 if __name__ == "__main__":
     text1 = '다이어트 해야되는데... #😂❤ #멋짐휘트니스연산점 #연산동pt'
     text2 = '럽스타 그자체❤❤\n#럽스타그램 #운동하는커플 #태닝'
-    text3 = '#음식#사진#보세요'
+    text3 = '좋반해주세요 기다려주는 사람이있어 매우 행복한 밤이네요'
     tc_tagger = Tagger()
-    print(tc_tagger.tag(text1))
-    print(tc_tagger.tag(text2))
+    # print(tc_tagger.tag(text1))
+    # print(tc_tagger.tag(text2))
     print(tc_tagger.tag(text3))
     # for t in [text1, text2, text3]:
     #     print('='*100)
