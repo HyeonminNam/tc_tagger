@@ -22,14 +22,22 @@ class tagger():
     # 이모지에 'Emoji' 태깅 붙여주는 함수
     def _emoticon(self, result):
         emo_lst = []
-        for idx, (token, _) in enumerate(result):
+        for idx, (token, tag) in enumerate(result):
             emojis = re.findall(self.re_emoji, token)
             if emojis:
-                try:
-                    lst = [(x+'_'+self.emoji_dic[x][1:-1], 'Emoji') for x in emojis]
-                    emo_lst.append((idx, lst))
-                except:
-                    pass
+                if result[idx-1][0]=='#':
+                    try:
+                        lst = [(x+'_'+self.emoji_dic[x][1:-1], 'Hashtag_Emoji') for x in emojis]
+                        emo_lst.append((idx-1, lst))
+                        result.pop(idx-1)
+                    except:
+                        pass
+                else:
+                    try:
+                        lst = [(x+'_'+self.emoji_dic[x][1:-1], 'Emoji') for x in emojis]
+                        emo_lst.append((idx, lst))
+                    except:
+                        pass
         emo_lst.reverse()
         for idx, emo in emo_lst:
             result.pop(idx)
@@ -99,12 +107,13 @@ class tagger():
         return token_lst
 
 if __name__ == "__main__":
-    text1 = '다이어트 해야되는데...😂😂 #멋짐휘트니스연산점 #연산동pt'
+    text1 = '다이어트 해야되는데... #😂❤ #멋짐휘트니스연산점 #연산동pt'
     text2 = '럽스타 그자체❤❤\n#럽스타그램 #운동하는커플 #태닝'
-    text3 = '#그래재밌으면됐지뭐'
+    text3 = '#실시간 #만주수공417동 #비닐놀이 #그래재밌으면됐지뭐'
     tc_tagger = tagger()
     print(tc_tagger.tag(text1))
     print(tc_tagger.tag(text2))
+    print(tc_tagger.tag(text3))
     # for t in [text1, text2, text3]:
     #     print('='*100)
     #     print('\nThreecow : ', tc_tagger.tag(t))
