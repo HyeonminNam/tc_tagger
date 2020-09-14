@@ -41,7 +41,7 @@ $ git clone https://github.com/HyeonminNam/tc_tagger.git
         - 따라서 Konlpy 설치에 필요한 패키지들을 먼저 설치해 주셔야 합니다.
         - 각 환경별로 아래와 같은 패키지가 필요합니다.
 
-            [제목 없음](https://www.notion.so/30fb241fd983404bad99cdfd86831275)
+            ![tc_tagger%20e89bbfba70944e48ae385b19075558b2/Untitled.png](tc_tagger%20e89bbfba70944e48ae385b19075558b2/Untitled.png)
 
         - 자세한 설치 방법은 Konlpy 설치 안내 링크([https://konlpy.org/ko/latest/install/](https://konlpy.org/ko/latest/install/))를 참고하시기 바랍니다.
 
