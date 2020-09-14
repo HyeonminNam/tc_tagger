@@ -15,10 +15,7 @@ RUN apt-get clean -y && \
 	rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && \
-    apt-get install -y git && \
-    git clone https://github.com/HyeonminNam/tc_tagger.git
-
-RUN git pull origin master
+    apt-get install -y git
 
 RUN pip3 install konlpy && \
 pip3 install emoji && \
