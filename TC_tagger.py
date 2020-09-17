@@ -49,7 +49,11 @@ class Tagger():
         h = []
         for pos_idx, (token, tag) in enumerate(result):
             if tag == 'Hashtag':
-                token = re.search('[#](\w+)', token).group(1)
+                try:
+                    token = re.search('[#](.+)', token).group(1)
+                except Exception as e:
+                    print(e)
+                    print(token)
                 token_lst = self.okt_edit.pos(token)
                 noun_idx_lst = [idx for idx, (token_, tag_) in enumerate(token_lst) if tag_ == 'Noun']
                 if len(noun_idx_lst) >= 2:
